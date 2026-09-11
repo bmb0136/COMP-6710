@@ -33,7 +33,7 @@ class TestGenAI(unittest.TestCase):
 if __name__ == '__main__':
     for dep in ['numpy', 'scipy']:
         try:
-            __import(dep)
+            __import__(dep)
         except:
             sys.exit(f"Missing dependency {dep}")
     unittest.main()
