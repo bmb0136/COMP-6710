@@ -1,32 +1,34 @@
-def mann_whitney_u(x, y):
-    n1 = len(x)
-    n2 = len(y)
+import numpy as np
+from scipy import stats
+
+def perform_mann_whitney_u(group1, group2):
+    """
+    Performs the Mann-Whitney U test on two independent samples with robust input validation.
     
-    # Combine data with group identifiers (0 for x, 1 for y)
-    combined = [(val, 0) for val in x] + [(val, 1) for val in y]
+    Parameters:
+    group1 (list or array-like): Observations from sample 1.
+    group2 (list or array-like): Observations from sample 2.
     
-    # Sort combined data by value
-    combined.sort(key=lambda item: item[0])
+    Returns:
+    tuple: The Mann-Whitney U statistic and the p-value.
+    """
+    g1 = np.asarray(group1, dtype=float)
+    g2 = np.asarray(group2, dtype=float)
     
-    # Assign ranks, handling ties with average ranks
-    n = len(combined)
-    ranks = [0.0] * n
-    i = 0
-    while i < n:
-        j = i
-        while j < n and combined[j][0] == combined[i][0]:
-            j += 1
-        # Calculate average rank for tied values (1-indexed)
-        avg_rank = (i + 1 + j) / 2.0
-        for k in range(i, j):
-            ranks[k] = avg_rank
-        i = j
+    if g1.size == 0 or g2.size == 0:
+        raise ValueError("Input groups cannot be empty.")
         
-    # Sum the ranks for the first group (x)
-    r1 = sum(ranks[k] for k in range(n) if combined[k][1] == 0)
+    if not np.isfinite(g1).all() or not np.isfinite(g2).all():
+        raise ValueError("Input data must contain finite numeric values.")
+
+    statistic, p_value = stats.mannwhitneyu(g1, g2, alternative='two-sided')
+    return statistic, p_value
+
+# Example execution
+if __name__ == "__main__":
+    sample_a = [12, 14, 19, 21, 30]
+    sample_b = [22, 28, 35, 40, 45]
     
-    # Calculate U statistics for both groups
-    u1 = n1 * n2 + (n1 * (n1 + 1)) / 2.0 - r1
-    u2 = n1 * n2 - u1
-    
-    return min(u1, u2), u1, u2
+    u_stat, p_val = perform_mann_whitney_u(sample_a, sample_b)
+    print(f"U-statistic: {u_stat}")
+    print(f"P-value: {p_val}")

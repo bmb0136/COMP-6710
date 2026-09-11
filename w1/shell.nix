@@ -4,6 +4,6 @@
 }:
 pkgs.mkShell {
   packages = [
-    pkgs.python3
+    (pkgs.python3.withPackages (pp: [ pp.scipy pp.numpy ]))
   ];
 }

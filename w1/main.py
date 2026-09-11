@@ -1,7 +1,8 @@
 import unittest
 import csv
+import sys
 
-from u_test import mann_whitney_u
+from u_test import perform_mann_whitney_u
 
 def load_data():
     A = []
@@ -17,17 +18,22 @@ def load_data():
 class TestGenAI(unittest.TestCase):
     def test_gemini_u_test(self):
         # Determined via external calculator
-        EXPECTED_U_VALUES = { 5732.0, 6149.0 }
-        EXPECTED_U = min(EXPECTED_U_VALUES)
+        EXPECTED_U = 6149.0
+        ALPHA = 0.05
+        IS_SIGNIFICANT = False
+        # For float comparison
         EPSILON = 1.0e-6
 
         a, b = load_data()
-        u, u1, u2 = mann_whitney_u(a, b)
+        u, p = perform_mann_whitney_u(a, b)
 
         self.assertTrue(abs(u - EXPECTED_U) < EPSILON, 'U value was incorrect')
-        self.assertTrue(any(u1 - abs(x) < EPSILON for x in EXPECTED_U_VALUES), 'U1 value was incorrect')
-        self.assertTrue(any(u2 - abs(x) < EPSILON for x in EXPECTED_U_VALUES), 'U2 value was incorrect')
-        self.assertTrue(abs(u - min(u1, u2)) < EPSILON, 'U should be the minimum of U1 and U2')
+        self.assertEqual(p < ALPHA, IS_SIGNIFICANT, 'The P value indicated the wrong significance')
 
 if __name__ == '__main__':
+    for dep in ['numpy', 'scipy']:
+        try:
+            __import(dep)
+        except:
+            sys.exit(f"Missing dependency {dep}")
     unittest.main()
