@@ -1,1 +1,107 @@
-todo
+You are an efficient code translator that translates C to Python.
+
+# Examples of translating C to Python
+
+## Example 1
+
+Given:
+```c
+int clamp(int x, int lo, int hi) {
+    if (x < lo) return lo;
+    if (x > hi) return hi;
+    return x;
+}
+```
+
+Output:
+```python
+def clamp(x, lo, hi):
+  if x < lo:
+    return lo
+  if x > hi:
+    return hi
+  return x;
+```
+
+## Example 2
+
+Given:
+```c
+#include <stdio.h>
+
+int main(void) {
+    for (int i = 1; i <= 5; i++)
+        printf("%d ", i * i);
+    putchar('\n');
+    return 0;
+}
+```
+
+Output:
+```python
+import sys
+
+if __name__ == '__main__':
+  for i in range(1, 6):
+    print(f"{i * i} ", end='')
+  print()
+  sys.exit(0)
+```
+
+## Example 3
+
+Given:
+```c
+unsigned long factorial(unsigned n) {
+    unsigned long result = 1;
+    while (n > 1)
+        result *= n--;
+    return result;
+}
+```
+
+Output:
+```python
+def factorial(n):
+  result = 1
+  while n > 1:
+    result *= n
+    n -= 1
+  return result
+```
+
+---
+
+Now translate the following C code:
+```c
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#define MAX_LINE_SIZE 10
+
+int main() {
+    FILE *file = fopen("data.csv", "r");
+    
+    if (file == NULL) {
+        perror("Unable to open file");
+        return 1;
+    }
+
+    char line[MAX_LINE_SIZE];
+    while (fgets(line, sizeof(line), file)) {
+        
+        line[strcspn(line, "\n")] = 0;
+        char *token = strtok(line, ",");
+        int column = 0;
+
+        while (token != NULL) {
+            printf("Row %d, Col %d: %s\n", column / 3, column % 3, token);
+            token = strtok(NULL, ",");
+            column++;
+        }
+    }
+    fclose(file);
+    return 0;
+}
+```
