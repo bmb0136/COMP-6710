@@ -1,0 +1,5 @@
+| C | Python |
+|-|-|
+| Row numbers are almost always zero, and the few times it is not zero it is one | Row numbers have the following cycle: 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4 |
+| Column numbers are mostly 0/1 and seemingly have no pattern | Column numbers have the following cycle: 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0 |
+| The numbers appear to be cut off compared to the relevant data in the input CSV | The numbers appear to match up with what is in the CSV |
