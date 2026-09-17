@@ -11,10 +11,11 @@
       imports = [
         ./w1
         ./w2
+        ./w3
       ];
       systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
       perSystem = { self', ... }: {
-        devShells.default = self'.devShells.w2;
+        devShells.default = self'.devShells.w3;
       };
     };
 }
