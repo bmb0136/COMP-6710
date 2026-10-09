@@ -16,7 +16,8 @@ class Tracer:
         self.events.append({ "kind": "assignment", "name": name, "value": value })
 
     def append_branch(self, condition, result):
-        self.events.append({ "kind": "branch", "condition": condition, "result": result })
+        #self.events.append({ "kind": "branch", "condition": condition, "result": result })
+        pass
 
 def format_trace_value(node):
     match node:
