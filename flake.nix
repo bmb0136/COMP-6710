@@ -17,6 +17,7 @@
           ./w4
           ./w5
           ./w7
+          ./w9
         ];
 
         mostRecentWorkshop = builtins.head (
