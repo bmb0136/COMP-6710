@@ -18,11 +18,14 @@
           ./w5
           ./w7
           ./w9
+          ./w10
         ];
 
-        mostRecentWorkshop = builtins.head (
-          builtins.sort (a: b: !builtins.lessThan a b) (map builtins.baseNameOf imports)
-        );
+        mostRecentWorkshop = let
+          names = (map builtins.baseNameOf imports);
+          values = builtins.listToAttrs (map (name: { inherit name; value = builtins.fromJSON (builtins.substring 1 (-1) name); }) names);
+          sorted = builtins.sort (a: b: !builtins.lessThan values.${a} values.${b}) names;
+        in builtins.head sorted;
       in
       {
         inherit imports;
