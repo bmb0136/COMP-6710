@@ -1,28 +1,24 @@
+import sys
 from flask import Flask, request, jsonify
 
 def create_app():
     app = Flask(__name__)
 
-    # Define the root endpoint for GET requests
-    @app.route('/', methods=['GET'])
-    def home():
-        return "<h1>Welcome to a Simple Flask API!</h1>"
+    @app.route('/ssp', methods=['GET'])
+    def ssp():
+        return "Secure Software Process"
 
-    # Define an endpoint for POST requests
-    @app.route('/greet', methods=['POST'])
-    def greet_user():
-        # Check if the request body is valid JSON
-        if not request.json or 'name' not in request.json:
-            return jsonify({"error": "Bad Request: 'name' key is missing"}), 400
+    @app.route('/vanity', methods=['GET'])
+    def vanity():
+        return "Brandon Buckley"
 
-        name = request.json['name']
-        response = {"message": f"Hello, {name}! This is your first RESTful service."}
-        return jsonify(response), 200
+    @app.route('/mypython', methods=['GET'])
+    def mypython():
+        return sys.version
 
-    # Define an endpoint for GET requests
-    @app.route('/sqa', methods=['GET'])
-    def greetSQA():
-        return "<h1>Welcome to the SQA course!</h1>"
+    @app.route('/csse', methods=['GET'])
+    def csse():
+        return "Department of Computer Science and Software Engineering"
 
     return app
 
